@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
-
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Component("contactBean")
-@SessionScope
+@ViewScoped
 public class ContactBean implements Serializable {
     
     
@@ -31,16 +31,18 @@ public class ContactBean implements Serializable {
     List<Contact> filteredContacts;
     private Contact contact;
     private String rowsPerPageTemplate;
+    private Long contactToDelete;
+    
     
     
     @PostConstruct
     public void init() {
         contact = new Contact();
-        this.allContacts = contactRepository.findAll();
-        this.filteredContacts = allContacts;
+        this.allContacts = contactRepository.findAllOrderedById();
+        
         
         rowsPerPageTemplate = "5, 10";
-
+        
         if(allContacts.size() > 10 ) {
             rowsPerPageTemplate += "," + allContacts.size();
         }
@@ -55,10 +57,12 @@ public class ContactBean implements Serializable {
         return contactRepository.findAll();
     }
     
-    public void handleDelete(ActionEvent event) {
+    public void handleDelete() {
+        contactRepository.deleteById(contactToDelete);
+        this.allContacts = contactRepository.findAllOrderedById();
+        this.filteredContacts = null;
         
-        Long contactId = (Long) event.getComponent().getAttributes().get("contactId");
-        contactRepository.deleteById(contactId);
+        PrimeFaces.current().ajax().update("form, :formTable:customersData, :formTable, :customersData, formTable, customersData,:nameColumn, nameColumn");
     }
     
     public void updateMessage() {
@@ -99,7 +103,7 @@ public class ContactBean implements Serializable {
         
         return currentValue.contains(filterText);
     }
-
+    
     public boolean filterContactsByEmail(Object value, Object filter, Locale locale) {
         
         if(value == null || value.toString().trim().isEmpty()) return false;
@@ -122,5 +126,13 @@ public class ContactBean implements Serializable {
     
     public void setRowsPerPageTemplate(String rowsPerPageTemplate) {
         this.rowsPerPageTemplate = rowsPerPageTemplate;
+    }
+
+    public Long getContactToDelete() {
+        return contactToDelete;
+    }
+    
+    public void setContactToDelete(Long contactToDelete) {
+        this.contactToDelete = contactToDelete;
     }
 }

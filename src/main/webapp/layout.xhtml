@@ -46,6 +46,12 @@ xmlns:p="http://primefaces.org/ui">
                 <ui:insert name="content" />
             </div>
         </div>
+        <script type="text/javascript">
+            function clearFiltersLocal() {
+                var contactsTable = PF('customersData');
+                contactsTable.clearFilters();
+            }
+        </script>
     </h:body>
 </f:view>
 </html>

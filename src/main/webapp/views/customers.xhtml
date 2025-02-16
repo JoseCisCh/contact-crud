@@ -11,7 +11,7 @@
 
 <ui:composition template="/layout.xhtml">
     <ui:define name="content">
-        <h:form>
+        <h:form id="formTable">
             <p:panel header="Contact Form">
                 <p:messages/>
                 
@@ -31,27 +31,32 @@
                 paginator="true" rows="10"  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                 rowsPerPageTemplate="#{contactBean.rowsPerPageTemplate}" paginatorPosition="bottom" widgetVar="contactsTable"
-                filteredValue="#{contactBean.filteredContacts}">
+                filteredValue="#{contactBean.filteredContacts}"
+                >
                 
                 <p:column headerText="ID">
                     <h:outputText value="#{contact.id}"/>
                 </p:column>
-                <p:column filterBy="#{contact.firstName} #{contact.lastName}" filterFunction="#{contactBean.filterContactsByName}" headerText="Full name">
+                <p:column id="nameColumn" filterBy="#{contact.firstName} #{contact.lastName}" filterFunction="#{contactBean.filterContactsByName}" headerText="Full name">
                     <h:outputText value="#{contact.firstName} #{contact.lastName}" />
                 </p:column>
                 <p:column filterBy="#{contact.emailAddress}" headerText="Email" filterFunction="#{contactBean.filterContactsByEmail}">
                     <h:outputText value="#{contact.emailAddress}"/>
                 </p:column>
                 <p:column styleClass="centeredItems" headerText="Manage">
-                    <p:commandButton value="Delete" update="@form" styleClass="roundedButton danger" actionListener="#{contactBean.handleDelete}">
-                        <f:attribute name="contactId" value="#{contact.id}" />
-                    </p:commandButton>
+                    
+                    <p:commandButton value="Delete" styleClass="roundedButton danger" action="#{contactBean.setContactToDelete(contact.id)}" onclick="PF('cd').show()" />
 
                     <p:commandButton styleClass="roundedButton" ajax="false" action="#{contactBean.goToUpdate(contact.id)}" value="Update" />
                     
                 </p:column>
             </p:dataTable>
+            <p:confirmDialog message="Are you sure about deleting the user?" header="Delete contact" severity="alert" widgetVar="cd">
+                <p:commandButton value="Yes" update=":formTable:customersData"  action="#{contactBean.handleDelete}" oncomplete="PF('cd').hide();window.location.reload();" />
+                <p:commandButton value="No" onclick="PF('cd').hide();" type="button" />
+            </p:confirmDialog>
         </h:form>
+       
     </ui:define>
 </ui:composition>
 </html>
