@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Contact Management</title>
+    <!-- <f:metadata>
+        <f:viewParam name="" value="#{updateContactBean.id}"/>
+    </f:metadata> -->
+</h:head>
+
+
+<ui:composition template="/layout.xhtml">
+    <ui:define name="content">
+        <h:form id="contactForm">
+            <p:panel header="Contact Details">
+                <h:panelGrid columns="3">
+                    <p:outputLabel rendered="#{updateContactBean.contact.id != null}" value="ID: " />
+                    <p:outputLabel rendered="#{updateContactBean.contact.id != null}" value="#{updateContactBean.contact.id}" />
+                    <p:outputLabel rendered="#{updateContactBean.contact.id != null}"></p:outputLabel>
+                    <p:outputLabel for="firstName" value="First name: " />
+                    <p:inputText id="firstName" required="true" value="#{updateContactBean.contact.firstName}" />
+                    <p:message for="firstName" />
+                    <p:outputLabel for="lastName" value="Last name: " />
+                    <p:inputText id="lastName" required="true" value="#{updateContactBean.contact.lastName}" />
+                    <p:message for="lastName" />
+                    <p:outputLabel for="emailAddress" value="Email address: " />
+                    <p:inputText id="emailAddress" required="true" value="#{updateContactBean.contact.emailAddress}" validatorMessage="#{updateContactBean.contact.emailAddress} is not valid">
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
+                    <p:message for="emailAddress" />
+                    <p:outputLabel for="phoneNum" value="Phone number: " />
+                    <p:inputText id="phoneNum" required="true" value="#{updateContactBean.contact.phoneNum}" />
+                    <p:message for="phoneNum" />
+                    <p:outputLabel for="address" value="Address: " />
+                    <p:inputText id="address" required="true" value="#{updateContactBean.contact.address}" />
+                    <p:message for="address" />
+                    <p:outputLabel for="image" value="Image: " />
+                    <p:fileUpload id="image" required="true" value="#{updateContactBean.photoFile}" />
+                    <p:message for="image" />
+                    
+                    <h:commandButton value="Save" action="#{updateContactBean.save}" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

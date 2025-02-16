@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Contact Management</title>
+</h:head>
+<h:body>
+    <h:form>
+        <p:panel header="Contact Form">
+            <p:messages/>
+            
+            <p:outputLabel value="First Name: "/>
+            <p:inputText value="#{contactBean.contact.firstName}"/>
+            
+            <p:outputLabel value="Last Name: "/>
+            <p:inputText value="#{contactBean.contact.lastName}"/>
+            
+            <p:outputLabel value="Email: "/>
+            <p:inputText value="#{contactBean.contact.email}"/>
+            
+            <p:commandButton value="Save" action="#{contactBean.save}" update="@form"/>
+        </p:panel>
+
+        <p:dataTable value="#{contactBean.allContacts}" var="contact">
+            <p:column headerText="First Name">
+                <h:outputText value="#{contact.firstName}"/>
+            </p:column>
+            <p:column headerText="Last Name">
+                <h:outputText value="#{contact.lastName}"/>
+            </p:column>
+            <p:column headerText="Email">
+                <h:outputText value="#{contact.email}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>

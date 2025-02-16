@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Contact Management</title>
+    
+</h:head>
+
+<ui:composition template="/layout.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <p:panel header="Contact Form">
+                <p:messages/>
+                
+                <p:outputLabel value="First Name: "/>
+                <p:inputText value="#{contactBean.contact.firstName}"/>
+                
+                <p:outputLabel value="Last Name: "/>
+                <p:inputText value="#{contactBean.contact.lastName}"/>
+                
+                <p:outputLabel value="Email: "/>
+                <p:inputText value="#{contactBean.contact.emailAddress}"/>
+                
+                <p:commandButton value="Save" action="#{contactBean.save}" update="@form"/>
+            </p:panel>
+
+            <p:dataTable id="customersData" value="#{contactBean.allContacts}" var="contact"
+                paginator="true" rows="10"  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                rowsPerPageTemplate="#{contactBean.rowsPerPageTemplate}" paginatorPosition="bottom" widgetVar="contactsTable"
+                filteredValue="#{contactBean.filteredContacts}">
+                
+                <p:column headerText="ID">
+                    <h:outputText value="#{contact.id}"/>
+                </p:column>
+                <p:column filterBy="#{contact.firstName} #{contact.lastName}" filterFunction="#{contactBean.filterContactsByName}" headerText="Full name">
+                    <h:outputText value="#{contact.firstName} #{contact.lastName}" />
+                </p:column>
+                <p:column filterBy="#{contact.emailAddress}" headerText="Email" filterFunction="#{contactBean.filterContactsByEmail}">
+                    <h:outputText value="#{contact.emailAddress}"/>
+                </p:column>
+                <p:column styleClass="centeredItems" headerText="Manage">
+                    <p:commandButton value="Delete" update="@form" styleClass="roundedButton danger" actionListener="#{contactBean.handleDelete}">
+                        <f:attribute name="contactId" value="#{contact.id}" />
+                    </p:commandButton>
+
+                    <p:commandButton styleClass="roundedButton" ajax="false" action="#{contactBean.goToUpdate(contact.id)}" value="Update" />
+                    
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

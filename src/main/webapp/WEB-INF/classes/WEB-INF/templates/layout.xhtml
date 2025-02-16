@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="">
+    <h:form id="userForm">
+        <h:panelGrid columns="1" style="width:50%;margin:auto;">
+            <h1 style="text-align:center;">User List</h1>
+            <p:dataTable value="#{userBean.contacts}" var="contacts" styleClass="table">
+                <p:column headerText="ID">
+                    <h:outputText value="#{contact.id}" />
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{contact.name}" />
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{contact.email}" />
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
+    </h:form>
+</ui:composition>
