@@ -48,29 +48,16 @@ public class ContactBean implements Serializable {
         }
     }
     
-    public void save() {
-        contactRepository.save(contact);
-        contact = new Contact();
-    }
-    
     public List<Contact> getAllContacts() {
         return contactRepository.findAll();
     }
     
     public void handleDelete() {
         contactRepository.deleteById(contactToDelete);
-        this.allContacts = contactRepository.findAllOrderedById();
-        this.filteredContacts = null;
-        
-        PrimeFaces.current().ajax().update("form, :formTable:customersData, :formTable, :customersData, formTable, customersData,:nameColumn, nameColumn");
-    }
-    
-    public void updateMessage() {
-        System.out.println("Updating message");
     }
     
     public String goToUpdate(Long contactId) {
-        return "/views/updateContact.xhtml?faces-redirect=true&contactId=" + contactId;
+        return "/views/edit-contact.xhtml?faces-redirect=true&contactId=" + contactId;
     }
     
     public Contact getContact() {
@@ -89,36 +76,6 @@ public class ContactBean implements Serializable {
         this.filteredContacts = filteredContacts;
     }
     
-    public boolean filterContactsByName(Object value, Object filter, Locale locale) {
-        
-        if(value == null || value.toString().trim().isEmpty()) return false;
-        
-        if (filter == null || filter.toString().trim().isEmpty()) {
-            return true;
-        }
-        // Implement custom filtering logic here
-        String filterText = filter.toString().trim().toLowerCase();
-        
-        String currentValue = (String) value.toString().trim().toLowerCase();
-        
-        return currentValue.contains(filterText);
-    }
-    
-    public boolean filterContactsByEmail(Object value, Object filter, Locale locale) {
-        
-        if(value == null || value.toString().trim().isEmpty()) return false;
-        
-        if (filter == null || filter.toString().trim().isEmpty()) {
-            return true;
-        }
-        // Implement custom filtering logic here
-        String filterText = filter.toString().trim().toLowerCase();
-        
-        String currentValue = (String) value.toString().trim().toLowerCase();
-        
-        return currentValue.contains(filterText) ||
-        contact.getEmailAddress().toLowerCase().contains(filterText);
-    }
     
     public String getRowsPerPageTemplate() {
         return rowsPerPageTemplate;

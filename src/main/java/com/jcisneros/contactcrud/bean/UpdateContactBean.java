@@ -52,7 +52,7 @@ ContactRepository contactRepository;
     
     public String save() {
         contactRepository.save(this.contact);
-        return "/views/customers.xhtml?faces-redirect=true";
+        return "/views/contact-list.xhtml?faces-redirect=true";
     }
     
     public Contact getContact() {

@@ -12,35 +12,21 @@
 <ui:composition template="/layout.xhtml">
     <ui:define name="content">
         <h:form id="formTable">
-            <p:panel header="Contact Form">
-                <p:messages/>
-                
-                <p:outputLabel value="First Name: "/>
-                <p:inputText value="#{contactBean.contact.firstName}"/>
-                
-                <p:outputLabel value="Last Name: "/>
-                <p:inputText value="#{contactBean.contact.lastName}"/>
-                
-                <p:outputLabel value="Email: "/>
-                <p:inputText value="#{contactBean.contact.emailAddress}"/>
-                
-                <p:commandButton value="Save" action="#{contactBean.save}" update="@form"/>
-            </p:panel>
 
             <p:dataTable id="customersData" value="#{contactBean.allContacts}" var="contact"
                 paginator="true" rows="10"  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                 rowsPerPageTemplate="#{contactBean.rowsPerPageTemplate}" paginatorPosition="bottom" widgetVar="contactsTable"
-                filteredValue="#{contactBean.filteredContacts}"
+                filteredValue="#{contactBean.filteredContacts}" resizableColumns="true" 
                 >
-                
-                <p:column headerText="ID">
+                <p:ajax event="sort" process="@this" partialSubmit="true" />
+                <p:column headerText="ID" width="100" styleClass="centeredItems" >
                     <h:outputText value="#{contact.id}"/>
                 </p:column>
-                <p:column id="nameColumn" filterBy="#{contact.firstName} #{contact.lastName}" filterFunction="#{contactBean.filterContactsByName}" headerText="Full name">
+                <p:column id="nameColumn"  filterBy="#{contact.firstName} #{contact.lastName}"  headerText="Full name">
                     <h:outputText value="#{contact.firstName} #{contact.lastName}" />
                 </p:column>
-                <p:column filterBy="#{contact.emailAddress}" headerText="Email" filterFunction="#{contactBean.filterContactsByEmail}">
+                <p:column filterBy="#{contact.emailAddress}" headerText="Email" >
                     <h:outputText value="#{contact.emailAddress}"/>
                 </p:column>
                 <p:column styleClass="centeredItems" headerText="Manage">
