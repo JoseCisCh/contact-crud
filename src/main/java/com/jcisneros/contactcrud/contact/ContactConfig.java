@@ -18,13 +18,10 @@ public class ContactConfig {
     CommandLineRunner commandLineRunner(ContactRepository contactRepository) {
         return args -> {
             
-            // List<Contact> contacts = new ArrayList<>(Arrays.asList(
-            //     new Contact("Alejandro", "Cisneros", "ale@gmail.com", "2222222222", "Cerdena 124", "http://imageurl.com"),
-            //     new Contact("Ana Paty", "Cisneros", "ana@gmail.com", "2222222222", "Cerdena 124", "http://imageurl.com")
-            // ));
+            
 
-            Contact contact1 = new Contact("Alejandro", "Cisneros", "ale@gmail.com", "2222222222", "Cerdena 124", "http://imageurl.com");
-            Contact contact2 = new Contact("Ana Paty", "Cisneros", "ana@gmail.com", "2222222222", "Cerdena 124", "http://imageurl.com");
+            Contact contact1 = new Contact("Fernanda", "Nunez", "fer@gmail.com", "2222222222", "Dir 1", null);
+            Contact contact2 = new Contact("Diego", "Maradona", "diego@gmail.com", "2222222222", "Dir 2", null);
 
             contactRepository.saveAll(Arrays.asList(contact1, contact2));
         };
