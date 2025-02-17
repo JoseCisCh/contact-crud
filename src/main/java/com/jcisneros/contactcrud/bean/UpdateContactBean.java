@@ -1,24 +1,23 @@
 package com.jcisneros.contactcrud.bean;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
-import javax.faces.annotation.ManagedProperty;
-import javax.faces.component.FacesComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
 
 import com.jcisneros.contactcrud.contact.Contact;
 import com.jcisneros.contactcrud.contact.ContactRepository;
@@ -36,7 +35,7 @@ public class UpdateContactBean implements Serializable {
     PhotoService photoService;
 
     Contact contact;
-    private UploadedFile photoFile;
+    private File photoFile;
 
     
     @PostConstruct
@@ -61,39 +60,48 @@ public class UpdateContactBean implements Serializable {
     
     public String save() {
 
-        // if(this.photoFile != null) {
-        //     try {
-        //         InputStream photoStream = new FileInputStream(this.photoFile.getFileName());
-        //         Map<String,String> result;
-        //         result = photoService.uploadImage(photoStream);
-
-        //         if(result.get("url") != null) {
-        //             this.contact.setImageUrl(result.get("url"));
-        //         }
-        //     } catch(IOException err) {
-        //         System.out.println("Error getting photo input stream: " + err);
-        //     }
+        if(this.photoFile != null) {
             
-        // }
+            try {
+                InputStream photoStream = new FileInputStream(this.photoFile);
+                Map<String,String> result;
+                
+                result = photoService.uploadImage(photoFile);
+
+                if(result.get("url") != null) {
+                    this.contact.setImageUrl(result.get("url"));
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         contactRepository.save(this.contact);
         return "/views/contact-list.xhtml?faces-redirect=true";
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        this.photoFile = event.getFile();
-        if(this.photoFile != null) {
-            
-                byte[] photoStream = this.photoFile.getContent();
-                Map<String,String> result;
-                result = photoService.uploadImage(photoStream);
+        UploadedFile uploadedFile = event.getFile();
 
-                if(result.get("url") != null) {
-                    this.contact.setImageUrl(result.get("url"));
-                }
+        try {
+            String uploadsPath = System.getProperty("catalina.base") + "/webapps/uploads";
+            File targetDir = new File(uploadsPath);
+            if (!targetDir.exists()) {
+                targetDir.mkdirs(); // Create directory if it doesn't exist
+            }
+
+            File file = new File(uploadsPath, uploadedFile.getFileName());
+
+            try (InputStream input = uploadedFile.getInputStream();
+             OutputStream output = new FileOutputStream(file)) {
+                IOUtils.copy(input, output); // Apache Commons IO
+            }
             
-            
+            this.photoFile = file;
+        } catch(Exception e) {
+            e.printStackTrace();
         }
+        
     }
     
     public Contact getContact() {
@@ -104,11 +112,11 @@ public class UpdateContactBean implements Serializable {
         this.contact = contact;
     }
     
-    public UploadedFile getPhotoFile() {
+    public File getPhotoFile() {
         return photoFile;
     }
     
-    public void setPhotoFile(UploadedFile photoFile) {
+    public void setPhotoFile(File photoFile) {
         this.photoFile = photoFile;
     }
 }

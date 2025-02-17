@@ -1,10 +1,9 @@
 package com.jcisneros.contactcrud.services;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
-import org.primefaces.model.file.UploadedFile;
 import org.springframework.stereotype.Service;
 
 import com.cloudinary.Cloudinary;
@@ -20,7 +19,7 @@ public class PhotoService {
     
     private final Cloudinary cloudinary = new Cloudinary(dotenv.get("CLOUDINARY_URL"));
     
-    public Map uploadImage(byte[] file) {
+    public Map uploadImage(File file) {
         
         Map params1 = ObjectUtils.asMap(
             "use_filename", true,

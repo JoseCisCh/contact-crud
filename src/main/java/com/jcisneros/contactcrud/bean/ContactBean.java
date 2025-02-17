@@ -1,22 +1,17 @@
 package com.jcisneros.contactcrud.bean;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 import com.jcisneros.contactcrud.contact.Contact;
 import com.jcisneros.contactcrud.contact.ContactRepository;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Component("contactBean")
 @ViewScoped

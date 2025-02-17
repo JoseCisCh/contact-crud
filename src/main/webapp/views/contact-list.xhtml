@@ -29,12 +29,18 @@
                 <p:column filterBy="#{contact.emailAddress}" headerText="Email" >
                     <h:outputText value="#{contact.emailAddress}"/>
                 </p:column>
+                <p:column headerText="Phone number" >
+                    <h:outputText value="#{contact.phoneNum}"/>
+                </p:column>
+                <p:column headerText="Address" >
+                    <h:outputText value="#{contact.address}"/>
+                </p:column>
+                <p:column styleClass="centeredItems" headerText="Image" width="80" height="50" >
+                    <p:graphicImage onclick="openImageInNewTab('#{contact.imageUrl}')" styleClass="image" url="#{contact.imageUrl}" alt="No image uploaded"/>
+                </p:column>
                 <p:column styleClass="centeredItems" headerText="Manage">
-                    
                     <p:commandButton value="Delete" styleClass="roundedButton danger" action="#{contactBean.setContactToDelete(contact.id)}" onclick="PF('cd').show()" />
-
                     <p:commandButton styleClass="roundedButton" ajax="false" action="#{contactBean.goToUpdate(contact.id)}" value="Update" />
-                    
                 </p:column>
             </p:dataTable>
             <p:confirmDialog message="Are you sure about deleting the user?" header="Delete contact" severity="alert" widgetVar="cd">

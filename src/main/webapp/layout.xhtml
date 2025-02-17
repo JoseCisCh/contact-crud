@@ -30,7 +30,18 @@ xmlns:p="http://primefaces.org/ui">
                 align-items: center;
                 text-align: center;
             }
+
+            .image {
+                width: 50px !important;
+                height: 50px !important;
+
+            }
         </style>
+        <script type="text/javascript">
+            function openImageInNewTab(imageUrl) {
+                window.open(imageUrl, '_blank');
+            }
+        </script>
     </h:head>
     <h:body>
         <div class="ui-g">
