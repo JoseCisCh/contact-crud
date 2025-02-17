@@ -15,10 +15,25 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 @Service
 public class PhotoService {
+
+    /**
+     *  Dotenv instance to access environment variables.
+     */
     private final Dotenv dotenv = Dotenv.load();
-    
+
+
+    /**
+     *  Cloudinary SDK instance to upload images
+     */
     private final Cloudinary cloudinary = new Cloudinary(dotenv.get("CLOUDINARY_URL"));
     
+    /**
+     * Uploads image to Cloudify and returns Map with result of the 
+     * upload operation.
+     * 
+     * @param file  File containing image to upload.
+     * @return Map with the result returned from Cloudinary SDK.
+     */
     public Map uploadImage(File file) {
         
         Map params1 = ObjectUtils.asMap(

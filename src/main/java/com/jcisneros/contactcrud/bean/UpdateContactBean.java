@@ -28,16 +28,33 @@ import com.jcisneros.contactcrud.services.PhotoService;
 public class UpdateContactBean implements Serializable {
 
 
+    /**
+     *  ContactRepository injected to execute operations in 
+     *  Database
+     */
     @Autowired
     ContactRepository contactRepository;
 
+    /**
+     *  PhotoService injected to upload image.
+     */
     @Autowired
     PhotoService photoService;
 
+    /**
+     *  Current contact to edit
+     */
     Contact contact;
+
     private File photoFile;
 
     
+    /**
+     * Executed when creation of the bean. 
+     * If contactId is provided searches for the contact
+     * and creates sets contact.
+     * If no contactId is provided create new contact.
+     */
     @PostConstruct
     public void init(){
         
@@ -58,6 +75,14 @@ public class UpdateContactBean implements Serializable {
         
     }
     
+
+    /**
+     * Saves the current contact in the database
+     * If photo file was uploaded then PhotoService is
+     * called to upload image.
+     * 
+     * @return url to return to contact list view.
+     */
     public String save() {
 
         if(this.photoFile != null) {
@@ -80,6 +105,12 @@ public class UpdateContactBean implements Serializable {
         return "/views/contact-list.xhtml?faces-redirect=true";
     }
 
+    /**
+     * Creates a File in tomcate storage to avoid saving the iamge file in memory
+     * after handleFileUpload.
+     * 
+     * @param event event containing file uploaded by user
+     */
     public void handleFileUpload(FileUploadEvent event) {
         UploadedFile uploadedFile = event.getFile();
 
@@ -104,6 +135,11 @@ public class UpdateContactBean implements Serializable {
         
     }
     
+
+    /*
+    * The following are only getters and setter methods
+    */
+
     public Contact getContact() {
         return this.contact;
     }

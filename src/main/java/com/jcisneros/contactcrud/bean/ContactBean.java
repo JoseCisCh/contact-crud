@@ -30,6 +30,11 @@ public class ContactBean implements Serializable {
     
     
     
+    /**
+     * Queries all contacts in the database.
+     * and sets allContacts list.
+     * Configures pagination for Datatable
+     */
     @PostConstruct
     public void init() {
         contact = new Contact();
@@ -47,13 +52,28 @@ public class ContactBean implements Serializable {
         return contactRepository.findAll();
     }
     
+    /**
+     * Handles delete button click View
+     * Uses repository to delete the contact
+     */
     public void handleDelete() {
         contactRepository.deleteById(contactToDelete);
     }
     
+    /**
+     * Navigate user to contact-edit view
+     * 
+     * @param contactId id of contact to be edited
+     * @return
+     */
     public String goToUpdate(Long contactId) {
         return "/views/edit-contact.xhtml?faces-redirect=true&contactId=" + contactId;
     }
+
+
+    /*
+    * The following are only getters and setter methods
+    */
     
     public Contact getContact() {
         return this.contact;

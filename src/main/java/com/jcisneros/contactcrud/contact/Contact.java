@@ -25,6 +25,17 @@ public class Contact {
     private String imageUrl;
     
     
+    /**
+     * Contructor: create new object with all class properties
+     * except id.
+     * 
+     * @param firstName  contact first name
+     * @param lastName      contact last name
+     * @param emailAddress  contact email address
+     * @param phoneNum      contact phone number
+     * @param address       contact address
+     * @param imageUrl      contact image url location
+     */
     public Contact(String firstName, String lastName, String emailAddress, String phoneNum, String address,
     String imageUrl) {
         this.firstName = firstName;
@@ -36,8 +47,15 @@ public class Contact {
     }
     
     
+    /**
+    * Default constructor.
+     */
     public Contact() {
     }
+
+    /*
+    * The following are only getters and setter methods
+    */
     
     public void setFirstName(String firstName) {
         this.firstName = firstName != null ? firstName : "";
