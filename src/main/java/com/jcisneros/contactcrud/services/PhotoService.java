@@ -22,7 +22,7 @@ public class PhotoService {
     public Map uploadImage(File file) {
         
         Map params1 = ObjectUtils.asMap(
-            "use_filename", true,
+            "use_filename", false,
             "unique_filename", false,
             "overwrite", true,
             "folder", "contact-crud",
