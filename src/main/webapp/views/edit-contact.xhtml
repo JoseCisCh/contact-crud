@@ -40,7 +40,7 @@
                     <p:inputText id="address" required="true" value="#{updateContactBean.contact.address}" />
                     <p:message for="address" />
                     <p:outputLabel for="image" value="Image: " />
-                    <p:fileUpload id="image" listener="#{updateContactBean.handleFileUpload}" value="#{updateContactBean.photoFile}" />
+                    <p:fileUpload id="image" listener="#{updateContactBean.handleFileUpload}" value="#{updateContactBean.photoFile}" allowTypes="/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/"/>
                     <p:message for="image" />
                     
                     <h:commandButton value="Save" action="#{updateContactBean.save}" />
