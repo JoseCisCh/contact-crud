@@ -16,17 +16,18 @@ import io.github.cdimascio.dotenv.Dotenv;
 @Service
 public class PhotoService {
 
-    /**
-     *  Dotenv instance to access environment variables.
-     */
-    private final Dotenv dotenv = Dotenv.load();
-
 
     /**
      *  Cloudinary SDK instance to upload images
      */
-    private final Cloudinary cloudinary = new Cloudinary(dotenv.get("CLOUDINARY_URL"));
+    private final Cloudinary cloudinary;
     
+
+    
+    public PhotoService(Cloudinary cloudinary) {
+        this.cloudinary = cloudinary;
+    }
+
     /**
      * Uploads image to Cloudify and returns Map with result of the 
      * upload operation.
@@ -34,9 +35,9 @@ public class PhotoService {
      * @param file  File containing image to upload.
      * @return Map with the result returned from Cloudinary SDK.
      */
-    public Map uploadImage(File file) {
+    public Map<String, Object> uploadImage(File file) {
         
-        Map params1 = ObjectUtils.asMap(
+        Map<String, Object> params1 = ObjectUtils.asMap(
             "use_filename", false,
             "unique_filename", false,
             "overwrite", true,
@@ -45,7 +46,7 @@ public class PhotoService {
             );
             
         try {
-            Map result = cloudinary.uploader().upload(file, params1);
+            Map<String, Object> result = cloudinary.uploader().upload(file, params1);
             return result;
             
         } catch(IOException e) {

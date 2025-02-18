@@ -88,13 +88,13 @@ public class UpdateContactBean implements Serializable {
         if(this.photoFile != null) {
             
             try {
-                InputStream photoStream = new FileInputStream(this.photoFile);
-                Map<String,String> result;
+                //InputStream photoStream = new FileInputStream(this.photoFile);
+                Map<String,Object> result;
                 
                 result = photoService.uploadImage(photoFile);
 
                 if(result.get("url") != null) {
-                    this.contact.setImageUrl(result.get("url"));
+                    this.contact.setImageUrl((String) result.get("url"));
                 }
             } catch(Exception e) {
                 e.printStackTrace();
