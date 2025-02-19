@@ -34,3 +34,4 @@ build/
 .env
 
 setEnv.sh
+tree_structure.txt
